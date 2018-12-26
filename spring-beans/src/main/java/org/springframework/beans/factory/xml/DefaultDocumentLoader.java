@@ -92,9 +92,10 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		factory.setNamespaceAware(namespaceAware);
 
 		if (validationMode != XmlValidationModeDetector.VALIDATION_NONE) {
-			factory.setValidating(true);
+			factory.setValidating(true);//开启校验
+			//XSD 模式下，设置 factory 的属性
 			if (validationMode == XmlValidationModeDetector.VALIDATION_XSD) {
-				// Enforce namespace aware for XSD...
+				// Enforce namespace aware for XSD...  XSD 模式下，强制设置命名空间支持
 				factory.setNamespaceAware(true);
 				try {
 					factory.setAttribute(SCHEMA_LANGUAGE_ATTRIBUTE, XSD_SCHEMA_LANGUAGE);

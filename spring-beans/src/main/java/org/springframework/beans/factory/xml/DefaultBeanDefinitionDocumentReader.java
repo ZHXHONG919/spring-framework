@@ -18,6 +18,7 @@ package org.springframework.beans.factory.xml;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -152,6 +153,13 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		this.delegate = parent;
 	}
 
+	public static void main(String[] args) {
+		System.out.println(Arrays.toString(StringUtils.tokenizeToStringArray("aa-ba-ca-da", "-a")));
+		System.out.println(StringUtils.tokenizeToStringArray("aa-ba-ca-da", "-a").length);
+		System.out.println(StringUtils.tokenizeToStringArray("aa-ba-ca-da", "-a")[0]);
+		System.out.println(StringUtils.tokenizeToStringArray("aa-ba-ca-da", "-a")[1]);
+
+	}
 	protected BeanDefinitionParserDelegate createDelegate(
 			XmlReaderContext readerContext, Element root, @Nullable BeanDefinitionParserDelegate parentDelegate) {
 
