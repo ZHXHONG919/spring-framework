@@ -19,6 +19,7 @@ package org.springframework.beans.factory;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,10 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 去除 FactoryBean 的修饰符 $
+	 *
+	 * 如果 name 以 “&” 为前缀，那么会去掉该 "&" 。
+	 * 例如，name = "&studentService" ，则会是 name = "studentService"。
 	 * Return the actual bean name, stripping out the factory dereference
 	 * prefix (if any, also stripping repeated factory prefixes if found).
 	 * @param name the name of the bean
@@ -83,6 +88,9 @@ public abstract class BeanFactoryUtils {
 		if (!name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)) {
 			return name;
 		}
+		// computeIfAbsent 方法，分成两种情况：
+		//      1. 未存在，则进行计算执行，并将结果添加到缓存、
+		//      2. 已存在，则直接返回，无需计算
 		return transformedBeanNameCache.computeIfAbsent(name, beanName -> {
 			do {
 				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
@@ -92,6 +100,22 @@ public abstract class BeanFactoryUtils {
 		});
 	}
 
+	public static void main(String[] args) {
+		Map<String,Object> map =new HashMap<>();
+		map.computeIfAbsent("zhxh",key->{
+			return "zhxong";
+		});
+		System.out.println(map.get("zhxh"));
+		System.out.println(map.computeIfAbsent("zhxh",key->{
+			return "zhxong";
+		}));
+		map.computeIfPresent("zh",(key,valiue)->{
+			return map.get(key);
+		});
+		System.out.println(map.computeIfPresent("zhxh",(key,valiue)->{
+			return valiue;
+		}));
+	}
 	/**
 	 * Return whether the given name is a bean name which has been generated
 	 * by the default naming strategy (containing a "#..." part).
